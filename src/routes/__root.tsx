@@ -1,9 +1,9 @@
-import { lazy } from "react";
+// import { lazy } from "react";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 
-const TanStackRouterDevtools = import.meta.env.PROD
-  ? () => null
-  : lazy(() => import("@tanstack/router-devtools").then((res) => ({ default: res.TanStackRouterDevtools })));
+// const TanStackRouterDevtools = import.meta.env.PROD
+//   ? () => null
+//   : lazy(() => import("@tanstack/router-devtools").then((res) => ({ default: res.TanStackRouterDevtools })));
 
 export const Route = createRootRoute({
   component: () => (
@@ -18,7 +18,7 @@ export const Route = createRootRoute({
       </div>
       <hr />
       <Outlet />
-      <TanStackRouterDevtools />
+      {/* <TanStackRouterDevtools /> */}
     </>
   ),
 });
