@@ -1,32 +1,78 @@
+import { useEffect } from "react";
 import { DateTime, DurationObjectUnits } from "luxon";
 import numbro from "numbro";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import useWebSocket from "react-use-websocket";
+import { useDebouncedCallback } from "use-debounce";
 
-import { getCoinsList } from "@/api/pump.fun";
+import { getCoinsList, getCoinMetadataAndTrades, getTradeCreatedEventDataOrNull } from "@/api/pump.fun";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TimeTicker from "@/helpers/time-ticker";
 import { Progress } from "@/components/ui/progress";
 import { CopyableContent } from "@/components/copyable-content";
 
-export function coinsListQueryOptions() {
+function coinsListQueryOptions() {
   return queryOptions({
     queryKey: ["coins-list"],
     queryFn: () => getCoinsList({ sortBy: "creationTime" }),
-    refetchInterval: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60,
   });
 }
 
 export const Route = createFileRoute("/pump-dot-fun/")({
-  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(coinsListQueryOptions()),
+  loader: async ({ context: { queryClient } }) => queryClient.ensureQueryData(coinsListQueryOptions()),
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const queryClient = useQueryClient();
   const coinsListQuery = useSuspenseQuery(coinsListQueryOptions());
 
-  console.log(coinsListQuery.data);
+  const debouncedSocketMessageHandler = useDebouncedCallback(
+    async (e) => {
+      const data = getTradeCreatedEventDataOrNull(e.data);
+      if (!data) return;
+      const listCopy = [...coinsListQuery.data];
+      const itemIndex = listCopy.findIndex((coin) => coin.coinMint === data.mint);
+      if (itemIndex === -1) return listCopy;
+
+      const updatedData = await getCoinMetadataAndTrades(data.mint);
+
+      listCopy[itemIndex] = {
+        ...listCopy[itemIndex],
+        numHolders: Number(updatedData.coin.num_holders),
+        marketCap: Number(updatedData.coin.marketcap),
+        volume: Number(updatedData.coin.volume),
+        bondingCurveProgress: Number(updatedData.coin.progress),
+        sniperCount: Number(updatedData.coin.sniper_count),
+        currentMarketPrice: Number(updatedData.coin.current_market_price),
+      };
+
+      queryClient.setQueryData(["coins-list"], [...listCopy]);
+    },
+    300,
+    { maxWait: 1000 * 60 }
+  );
+
+  const socket = useWebSocket("wss://frontend-api-v3.pump.fun/socket.io/?EIO=4&transport=websocket", {
+    onOpen: () => {
+      socket.sendMessage("40");
+    },
+    filter: (message: MessageEvent) => {
+      const data = getTradeCreatedEventDataOrNull(message.data);
+      return !!data && coinsListQuery.data.some((coin) => coin.coinMint === data.mint);
+    },
+    onMessage: (e) => debouncedSocketMessageHandler(e),
+  });
+
+  useEffect(() => {
+    return () => {
+      debouncedSocketMessageHandler.flush();
+    };
+  }, []);
+
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
       <Table>
