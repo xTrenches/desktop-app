@@ -141,7 +141,11 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]" {...props}>
+    <Sidebar
+      collapsible="icon"
+      className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]"
+      {...props}
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
