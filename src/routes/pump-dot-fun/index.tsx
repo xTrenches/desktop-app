@@ -32,14 +32,14 @@ function RouteComponent() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead />
-            <TableHead />
-            <TableHead>Market Cap</TableHead>
-            <TableHead>Volume</TableHead>
-            <TableHead>Bonding Curve</TableHead>
-            <TableHead>Age</TableHead>
-            <TableHead>Holders</TableHead>
-            <TableHead>Snipers</TableHead>
+            <TableHead className="w-[5%] min-w-[50px]" />
+            <TableHead className="w-[20%] min-w-[180px]" />
+            <TableHead className="w-[12%] min-w-[120px]">Market Cap</TableHead>
+            <TableHead className="w-[10%] min-w-[100px]">Volume</TableHead>
+            <TableHead className="w-[12%] min-w-[120px]">Bonding Curve</TableHead>
+            <TableHead className="w-[8%] min-w-[80px]">Age</TableHead>
+            <TableHead className="w-[4%] min-w-[70px]">Holders</TableHead>
+            <TableHead className="w-[4%] min-w-[70px]">Snipers</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
