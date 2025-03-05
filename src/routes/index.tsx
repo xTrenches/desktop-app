@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
-import { tokenProfilesQueryOptions, tokenPairsQueryOptions } from "@/api/dexscreener";
-import { useQueries, useSuspenseQuery } from "@tanstack/react-query";
+import { tokenProfilesQueryOptions } from "@/api/dexscreener";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/")({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(tokenProfilesQueryOptions()),
@@ -10,17 +9,17 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const tokenProfilesQuery = useSuspenseQuery(tokenProfilesQueryOptions());
-  const tokenPairsQueries = useQueries({
-    queries: tokenProfilesQuery.data.map((tokenProfile) =>
-      tokenPairsQueryOptions(tokenProfile.chainId, [tokenProfile.tokenAddress])
-    ),
-  });
 
-  console.log(tokenPairsQueries.flatMap((query) => query.data));
+  console.log(tokenProfilesQuery.data);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button>Click me</Button>
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+        <div className="aspect-video rounded-xl bg-muted/50" />
+        <div className="aspect-video rounded-xl bg-muted/50" />
+        <div className="aspect-video rounded-xl bg-muted/50" />
+      </div>
+      <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
     </div>
   );
 }
