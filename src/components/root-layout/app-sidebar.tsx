@@ -1,10 +1,10 @@
 import * as React from "react";
 import { BookOpen, Bot, Command, Frame, LifeBuoy, Map, PieChart, Send, Settings2, SquareTerminal } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
-import { NavSecondary } from "@/components/nav-secondary";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/components/root-layout/nav-main";
+import { NavProjects } from "@/components/root-layout/nav-projects";
+import { NavSecondary } from "@/components/root-layout/nav-secondary";
+import { NavUser } from "@/components/root-layout/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -15,6 +15,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+import PumpDotFunIcon from "@/assets/svg/pump-dot-fun-logo.svg?react";
+import MoonshotLogo from "@/assets/svg/moonshot-logo.svg?react";
+
 const data = {
   user: {
     name: "shadcn",
@@ -23,89 +26,29 @@ const data = {
   },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Pump.fun",
+      url: "/pump-dot-fun",
+      icon: PumpDotFunIcon,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Newly Created",
+          url: "/pump-dot-fun",
+        },
+        {
+          title: "About to Graduate",
           url: "#",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
+          title: "Featured",
           url: "#",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Moonshot",
       url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
+      icon: MoonshotLogo,
     },
   ],
   navSecondary: [

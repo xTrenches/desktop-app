@@ -12,12 +12,19 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as PumpDotFunIndexImport } from './routes/pump-dot-fun/index'
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PumpDotFunIndexRoute = PumpDotFunIndexImport.update({
+  id: '/pump-dot-fun/',
+  path: '/pump-dot-fun/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -32,6 +39,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/pump-dot-fun/': {
+      id: '/pump-dot-fun/'
+      path: '/pump-dot-fun'
+      fullPath: '/pump-dot-fun'
+      preLoaderRoute: typeof PumpDotFunIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +53,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/pump-dot-fun': typeof PumpDotFunIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/pump-dot-fun': typeof PumpDotFunIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/pump-dot-fun/': typeof PumpDotFunIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/pump-dot-fun'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/pump-dot-fun'
+  id: '__root__' | '/' | '/pump-dot-fun/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PumpDotFunIndexRoute: typeof PumpDotFunIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PumpDotFunIndexRoute: PumpDotFunIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +96,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/pump-dot-fun/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/pump-dot-fun/": {
+      "filePath": "pump-dot-fun/index.tsx"
     }
   }
 }
