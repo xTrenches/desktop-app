@@ -7,6 +7,7 @@ import { routeTree } from "./routeTree.gen";
 import "./style.css";
 
 const queryClient = new QueryClient();
+
 const router = createRouter({
   routeTree,
   context: { queryClient },
