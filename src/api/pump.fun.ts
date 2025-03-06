@@ -1,4 +1,5 @@
 // https://pumpportal.fun/data-api/real-time
+// https://github.com/netgian/pumpfun/blob/main/pumpfun/api.py#L317
 
 export interface Holder {
   holderId: string;
@@ -171,3 +172,16 @@ export function getTradeCreatedEventDataOrNull(messageData: string): TradeCreate
     return null;
   }
 }
+// https://frontend-api-v3.pump.fun/candlesticks
+
+export interface GetCoinsParams {
+  offset: number;
+  limit: number;
+  sort: string;
+  includeNsfw: boolean;
+  order: string;
+}
+
+// https://frontend-api-v3.pump.fun/coins?offset=0&limit=48&sort=market_cap&includeNsfw=false&order=DESC
+
+// https://frontend-api-v3.pump.fun/coins?offset=0&limit=5&complete=true

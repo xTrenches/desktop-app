@@ -11,10 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PumpDotFunRouteImport } from './routes/pump-dot-fun/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as PumpDotFunIndexImport } from './routes/pump-dot-fun/index'
+import { Route as PumpDotFunFeaturedImport } from './routes/pump-dot-fun/featured'
+import { Route as PumpDotFunAboutToGraduateImport } from './routes/pump-dot-fun/about-to-graduate'
 
 // Create/Update Routes
+
+const PumpDotFunRouteRoute = PumpDotFunRouteImport.update({
+  id: '/pump-dot-fun',
+  path: '/pump-dot-fun',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -23,9 +32,21 @@ const IndexRoute = IndexImport.update({
 } as any)
 
 const PumpDotFunIndexRoute = PumpDotFunIndexImport.update({
-  id: '/pump-dot-fun/',
-  path: '/pump-dot-fun/',
-  getParentRoute: () => rootRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => PumpDotFunRouteRoute,
+} as any)
+
+const PumpDotFunFeaturedRoute = PumpDotFunFeaturedImport.update({
+  id: '/featured',
+  path: '/featured',
+  getParentRoute: () => PumpDotFunRouteRoute,
+} as any)
+
+const PumpDotFunAboutToGraduateRoute = PumpDotFunAboutToGraduateImport.update({
+  id: '/about-to-graduate',
+  path: '/about-to-graduate',
+  getParentRoute: () => PumpDotFunRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -39,51 +60,111 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/pump-dot-fun/': {
-      id: '/pump-dot-fun/'
+    '/pump-dot-fun': {
+      id: '/pump-dot-fun'
       path: '/pump-dot-fun'
       fullPath: '/pump-dot-fun'
-      preLoaderRoute: typeof PumpDotFunIndexImport
+      preLoaderRoute: typeof PumpDotFunRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/pump-dot-fun/about-to-graduate': {
+      id: '/pump-dot-fun/about-to-graduate'
+      path: '/about-to-graduate'
+      fullPath: '/pump-dot-fun/about-to-graduate'
+      preLoaderRoute: typeof PumpDotFunAboutToGraduateImport
+      parentRoute: typeof PumpDotFunRouteImport
+    }
+    '/pump-dot-fun/featured': {
+      id: '/pump-dot-fun/featured'
+      path: '/featured'
+      fullPath: '/pump-dot-fun/featured'
+      preLoaderRoute: typeof PumpDotFunFeaturedImport
+      parentRoute: typeof PumpDotFunRouteImport
+    }
+    '/pump-dot-fun/': {
+      id: '/pump-dot-fun/'
+      path: '/'
+      fullPath: '/pump-dot-fun/'
+      preLoaderRoute: typeof PumpDotFunIndexImport
+      parentRoute: typeof PumpDotFunRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface PumpDotFunRouteRouteChildren {
+  PumpDotFunAboutToGraduateRoute: typeof PumpDotFunAboutToGraduateRoute
+  PumpDotFunFeaturedRoute: typeof PumpDotFunFeaturedRoute
+  PumpDotFunIndexRoute: typeof PumpDotFunIndexRoute
+}
+
+const PumpDotFunRouteRouteChildren: PumpDotFunRouteRouteChildren = {
+  PumpDotFunAboutToGraduateRoute: PumpDotFunAboutToGraduateRoute,
+  PumpDotFunFeaturedRoute: PumpDotFunFeaturedRoute,
+  PumpDotFunIndexRoute: PumpDotFunIndexRoute,
+}
+
+const PumpDotFunRouteRouteWithChildren = PumpDotFunRouteRoute._addFileChildren(
+  PumpDotFunRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/pump-dot-fun': typeof PumpDotFunIndexRoute
+  '/pump-dot-fun': typeof PumpDotFunRouteRouteWithChildren
+  '/pump-dot-fun/about-to-graduate': typeof PumpDotFunAboutToGraduateRoute
+  '/pump-dot-fun/featured': typeof PumpDotFunFeaturedRoute
+  '/pump-dot-fun/': typeof PumpDotFunIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/pump-dot-fun/about-to-graduate': typeof PumpDotFunAboutToGraduateRoute
+  '/pump-dot-fun/featured': typeof PumpDotFunFeaturedRoute
   '/pump-dot-fun': typeof PumpDotFunIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/pump-dot-fun': typeof PumpDotFunRouteRouteWithChildren
+  '/pump-dot-fun/about-to-graduate': typeof PumpDotFunAboutToGraduateRoute
+  '/pump-dot-fun/featured': typeof PumpDotFunFeaturedRoute
   '/pump-dot-fun/': typeof PumpDotFunIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pump-dot-fun'
+  fullPaths:
+    | '/'
+    | '/pump-dot-fun'
+    | '/pump-dot-fun/about-to-graduate'
+    | '/pump-dot-fun/featured'
+    | '/pump-dot-fun/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pump-dot-fun'
-  id: '__root__' | '/' | '/pump-dot-fun/'
+  to:
+    | '/'
+    | '/pump-dot-fun/about-to-graduate'
+    | '/pump-dot-fun/featured'
+    | '/pump-dot-fun'
+  id:
+    | '__root__'
+    | '/'
+    | '/pump-dot-fun'
+    | '/pump-dot-fun/about-to-graduate'
+    | '/pump-dot-fun/featured'
+    | '/pump-dot-fun/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  PumpDotFunIndexRoute: typeof PumpDotFunIndexRoute
+  PumpDotFunRouteRoute: typeof PumpDotFunRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PumpDotFunIndexRoute: PumpDotFunIndexRoute,
+  PumpDotFunRouteRoute: PumpDotFunRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +178,31 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/pump-dot-fun/"
+        "/pump-dot-fun"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/pump-dot-fun": {
+      "filePath": "pump-dot-fun/route.tsx",
+      "children": [
+        "/pump-dot-fun/about-to-graduate",
+        "/pump-dot-fun/featured",
+        "/pump-dot-fun/"
+      ]
+    },
+    "/pump-dot-fun/about-to-graduate": {
+      "filePath": "pump-dot-fun/about-to-graduate.tsx",
+      "parent": "/pump-dot-fun"
+    },
+    "/pump-dot-fun/featured": {
+      "filePath": "pump-dot-fun/featured.tsx",
+      "parent": "/pump-dot-fun"
+    },
     "/pump-dot-fun/": {
-      "filePath": "pump-dot-fun/index.tsx"
+      "filePath": "pump-dot-fun/index.tsx",
+      "parent": "/pump-dot-fun"
     }
   }
 }

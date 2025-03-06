@@ -37,11 +37,11 @@ const data = {
         },
         {
           title: "About to Graduate",
-          url: "#",
+          url: "/pump-dot-fun/about-to-graduate",
         },
         {
           title: "Featured",
-          url: "#",
+          url: "/pump-dot-fun/featured",
         },
       ],
     },
