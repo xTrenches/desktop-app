@@ -40,22 +40,18 @@ function CoinsTable({ coins }: CoinsTableProps) {
               <TableCell className="font-medium">
                 <CopyableContent content={coin.ticker}>
                   <span className="space-x-1.5">
-                    <span>{coin.ticker}</span>{" "}
-                    <span className="text-xs font-medium text-muted-foreground">{coin.name}</span>
+                    <span>{coin.ticker}</span> <span className="text-xs font-medium text-muted-foreground">{coin.name}</span>
                   </span>
                 </CopyableContent>
               </TableCell>
               <TableCell>
                 <span className="flex items-center gap-2">
                   <Progress value={coin.bondingCurveProgress} className="flex-1" />
-                  <span className="text-xs font-medium text-muted-foreground w-[36px]">
-                    {Math.round(coin.bondingCurveProgress)}%
-                  </span>
+                  <span className="text-xs font-medium text-muted-foreground w-[36px]">{Math.round(coin.bondingCurveProgress)}%</span>
                 </span>
               </TableCell>
               <TableCell>
-                {numbro(coin.marketCap).format({ average: true, spaceSeparatedCurrency: true })}{" "}
-                <span className="text-xs text-muted-foreground">USD</span>
+                {numbro(coin.marketCap).format({ average: true, spaceSeparatedCurrency: true })} <span className="text-xs text-muted-foreground">USD</span>
               </TableCell>
               <TableCell>
                 {numbro(coin.volume).format({
@@ -71,7 +67,7 @@ function CoinsTable({ coins }: CoinsTableProps) {
                     const date = DateTime.fromMillis(coin.creationTime);
                     const units: (keyof DurationObjectUnits)[] = ["days", "hours", "minutes", "seconds"];
                     const diff = DateTime.now().diff(date, units).toObject();
-                    if (Object.keys(diff).length > 1 && "seconds" in diff) {
+                    if (Object.values(diff).filter(Boolean).length > 1 && "seconds" in diff) {
                       delete diff.seconds;
                     }
                     return units

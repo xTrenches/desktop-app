@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { getCoinsList } from "@/api/pump.fun";
 import CoinsTable from "@/components/pump-dot-fun/coins-table";
+import CoinsTableSkeleton from "@/components/pump-dot-fun/coins-table-skeleton";
 
 function coinsListQueryOptions() {
   return queryOptions({
@@ -15,6 +16,7 @@ function coinsListQueryOptions() {
 export const Route = createFileRoute("/pump-dot-fun/")({
   loader: async ({ context: { queryClient } }) => queryClient.ensureQueryData(coinsListQueryOptions()),
   component: RouteComponent,
+  pendingComponent: () => <CoinsTableSkeleton />,
 });
 
 function RouteComponent() {
