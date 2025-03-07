@@ -7,12 +7,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TimeTicker from "@/helpers/time-ticker";
 import { Progress } from "@/components/ui/progress";
 import { CopyableContent } from "@/components/copyable-content";
-
+import { useNavigate } from "@tanstack/react-router";
 interface CoinsTableProps {
   coins: Coin[];
 }
 
 function CoinsTable({ coins }: CoinsTableProps) {
+  const navigate = useNavigate();
+
+  const handleRowClick = (coin: Coin) => () => {
+    navigate({ to: `/${coin.coinMint}` });
+  };
+
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
       <Table>
@@ -30,7 +36,7 @@ function CoinsTable({ coins }: CoinsTableProps) {
         </TableHeader>
         <TableBody>
           {coins.map((coin) => (
-            <TableRow key={coin.coinMint} className="transition-colors">
+            <TableRow key={coin.coinMint} className="transition-colors" onClick={handleRowClick(coin)}>
               <TableCell>
                 <Avatar>
                   <AvatarImage src={coin.imageUrl} alt={coin.name} />

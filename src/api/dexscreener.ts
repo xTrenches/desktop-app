@@ -76,11 +76,3 @@ export async function getTokenPairs(chainId: string, tokenAddresses: string[]): 
 
   return response.json();
 }
-
-export function tokenPairsQueryOptions(chainId: string, tokenAddresses: string[]) {
-  return queryOptions({
-    queryKey: ["token-pairs", chainId, tokenAddresses],
-    queryFn: () => getTokenPairs(chainId, tokenAddresses),
-    // refetchInterval: 3000,
-  });
-}

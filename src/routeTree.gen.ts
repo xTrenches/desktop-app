@@ -11,13 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as CoinImport } from './routes/$coin'
 import { Route as PumpDotFunRouteImport } from './routes/pump-dot-fun/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as PumpDotFunIndexImport } from './routes/pump-dot-fun/index'
 import { Route as PumpDotFunFeaturedImport } from './routes/pump-dot-fun/featured'
-import { Route as PumpDotFunAboutToGraduateImport } from './routes/pump-dot-fun/about-to-graduate'
 
 // Create/Update Routes
+
+const CoinRoute = CoinImport.update({
+  id: '/$coin',
+  path: '/$coin',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PumpDotFunRouteRoute = PumpDotFunRouteImport.update({
   id: '/pump-dot-fun',
@@ -43,12 +49,6 @@ const PumpDotFunFeaturedRoute = PumpDotFunFeaturedImport.update({
   getParentRoute: () => PumpDotFunRouteRoute,
 } as any)
 
-const PumpDotFunAboutToGraduateRoute = PumpDotFunAboutToGraduateImport.update({
-  id: '/about-to-graduate',
-  path: '/about-to-graduate',
-  getParentRoute: () => PumpDotFunRouteRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -67,12 +67,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PumpDotFunRouteImport
       parentRoute: typeof rootRoute
     }
-    '/pump-dot-fun/about-to-graduate': {
-      id: '/pump-dot-fun/about-to-graduate'
-      path: '/about-to-graduate'
-      fullPath: '/pump-dot-fun/about-to-graduate'
-      preLoaderRoute: typeof PumpDotFunAboutToGraduateImport
-      parentRoute: typeof PumpDotFunRouteImport
+    '/$coin': {
+      id: '/$coin'
+      path: '/$coin'
+      fullPath: '/$coin'
+      preLoaderRoute: typeof CoinImport
+      parentRoute: typeof rootRoute
     }
     '/pump-dot-fun/featured': {
       id: '/pump-dot-fun/featured'
@@ -94,13 +94,11 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface PumpDotFunRouteRouteChildren {
-  PumpDotFunAboutToGraduateRoute: typeof PumpDotFunAboutToGraduateRoute
   PumpDotFunFeaturedRoute: typeof PumpDotFunFeaturedRoute
   PumpDotFunIndexRoute: typeof PumpDotFunIndexRoute
 }
 
 const PumpDotFunRouteRouteChildren: PumpDotFunRouteRouteChildren = {
-  PumpDotFunAboutToGraduateRoute: PumpDotFunAboutToGraduateRoute,
   PumpDotFunFeaturedRoute: PumpDotFunFeaturedRoute,
   PumpDotFunIndexRoute: PumpDotFunIndexRoute,
 }
@@ -112,14 +110,14 @@ const PumpDotFunRouteRouteWithChildren = PumpDotFunRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/pump-dot-fun': typeof PumpDotFunRouteRouteWithChildren
-  '/pump-dot-fun/about-to-graduate': typeof PumpDotFunAboutToGraduateRoute
+  '/$coin': typeof CoinRoute
   '/pump-dot-fun/featured': typeof PumpDotFunFeaturedRoute
   '/pump-dot-fun/': typeof PumpDotFunIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/pump-dot-fun/about-to-graduate': typeof PumpDotFunAboutToGraduateRoute
+  '/$coin': typeof CoinRoute
   '/pump-dot-fun/featured': typeof PumpDotFunFeaturedRoute
   '/pump-dot-fun': typeof PumpDotFunIndexRoute
 }
@@ -128,7 +126,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/pump-dot-fun': typeof PumpDotFunRouteRouteWithChildren
-  '/pump-dot-fun/about-to-graduate': typeof PumpDotFunAboutToGraduateRoute
+  '/$coin': typeof CoinRoute
   '/pump-dot-fun/featured': typeof PumpDotFunFeaturedRoute
   '/pump-dot-fun/': typeof PumpDotFunIndexRoute
 }
@@ -138,20 +136,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/pump-dot-fun'
-    | '/pump-dot-fun/about-to-graduate'
+    | '/$coin'
     | '/pump-dot-fun/featured'
     | '/pump-dot-fun/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/pump-dot-fun/about-to-graduate'
-    | '/pump-dot-fun/featured'
-    | '/pump-dot-fun'
+  to: '/' | '/$coin' | '/pump-dot-fun/featured' | '/pump-dot-fun'
   id:
     | '__root__'
     | '/'
     | '/pump-dot-fun'
-    | '/pump-dot-fun/about-to-graduate'
+    | '/$coin'
     | '/pump-dot-fun/featured'
     | '/pump-dot-fun/'
   fileRoutesById: FileRoutesById
@@ -160,11 +154,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PumpDotFunRouteRoute: typeof PumpDotFunRouteRouteWithChildren
+  CoinRoute: typeof CoinRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PumpDotFunRouteRoute: PumpDotFunRouteRouteWithChildren,
+  CoinRoute: CoinRoute,
 }
 
 export const routeTree = rootRoute
@@ -178,7 +174,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/pump-dot-fun"
+        "/pump-dot-fun",
+        "/$coin"
       ]
     },
     "/": {
@@ -187,14 +184,12 @@ export const routeTree = rootRoute
     "/pump-dot-fun": {
       "filePath": "pump-dot-fun/route.tsx",
       "children": [
-        "/pump-dot-fun/about-to-graduate",
         "/pump-dot-fun/featured",
         "/pump-dot-fun/"
       ]
     },
-    "/pump-dot-fun/about-to-graduate": {
-      "filePath": "pump-dot-fun/about-to-graduate.tsx",
-      "parent": "/pump-dot-fun"
+    "/$coin": {
+      "filePath": "$coin.tsx"
     },
     "/pump-dot-fun/featured": {
       "filePath": "pump-dot-fun/featured.tsx",

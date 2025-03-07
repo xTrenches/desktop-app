@@ -44,23 +44,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   url: "/pump-dot-fun",
                 },
                 {
-                  title: "About to Graduate",
-                  url: "/pump-dot-fun/about-to-graduate",
-                },
-                {
                   title: "Featured",
                   url: "/pump-dot-fun/featured",
                 },
               ],
             },
-            {
-              title: "Moonshot",
-              url: "#",
-              icon: MoonshotLogo,
-            },
+            // {
+            //   title: "Moonshot",
+            //   url: "#",
+            //   icon: MoonshotLogo,
+            // },
           ]}
         />
-        <NavProjects
+        {/* <NavProjects
           projects={[
             {
               name: "Design Engineering",
@@ -78,7 +74,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               icon: Map,
             },
           ]}
-        />
+        /> */}
         <NavSecondary
           items={[
             {
@@ -95,7 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           className="mt-auto"
         />
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <NavUser
           user={{
             name: "shadcn",
@@ -103,7 +99,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             avatar: "/avatars/shadcn.jpg",
           }}
         />
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 }
