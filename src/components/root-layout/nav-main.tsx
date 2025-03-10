@@ -43,8 +43,12 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => (
           <MatchRoute key={item.title} to={item.url}>
-            {(match) => (
-              <Collapsible asChild defaultOpen={!!match}>
+            {(_match) => (
+              <Collapsible
+                asChild
+                // defaultOpen={!!match}
+                defaultOpen
+              >
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild tooltip={item.title}>
                     <Link to={item.url} activeOptions={{ exact: true }}>

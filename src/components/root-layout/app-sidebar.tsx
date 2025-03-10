@@ -1,25 +1,12 @@
 import * as React from "react";
-import {
-  AlertOctagon,
-  BotIcon,
-  ChartLineIcon,
-  Clock10Icon,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-} from "lucide-react";
+import { BotIcon, ChartLineIcon, Clock10Icon, LifeBuoy, Send } from "lucide-react";
 
 import { NavMain } from "@/components/root-layout/nav-main";
 import { NavProjects } from "@/components/root-layout/nav-projects";
 import { NavSecondary } from "@/components/root-layout/nav-secondary";
-import { NavUser } from "@/components/root-layout/nav-user";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
