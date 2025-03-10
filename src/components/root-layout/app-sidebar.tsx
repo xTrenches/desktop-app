@@ -1,29 +1,53 @@
 import * as React from "react";
-import { Command, Frame, LifeBuoy, Map, PieChart, Send } from "lucide-react";
+import {
+  AlertOctagon,
+  BotIcon,
+  ChartLineIcon,
+  Clock10Icon,
+  Command,
+  Frame,
+  LifeBuoy,
+  Map,
+  PieChart,
+  Send,
+} from "lucide-react";
 
 import { NavMain } from "@/components/root-layout/nav-main";
 import { NavProjects } from "@/components/root-layout/nav-projects";
 import { NavSecondary } from "@/components/root-layout/nav-secondary";
 import { NavUser } from "@/components/root-layout/nav-user";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 import PumpDotFunIcon from "@/assets/svg/pump-dot-fun-logo.svg?react";
 import MoonshotLogo from "@/assets/svg/moonshot-logo.svg?react";
+import SolanaLogo from "@/assets/svg/solana-logo.svg?react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]" {...props}>
+    <Sidebar
+      collapsible="icon"
+      className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]"
+      {...props}
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-neutral-800 text-sidebar-primary-foreground">
+                  <SolanaLogo className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-semibold">Main Account</span>
+                  <span className="truncate text-xs">Solana</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -44,37 +68,45 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   url: "/pump-dot-fun",
                 },
                 {
+                  title: "Newly Graduated",
+                  url: "/pump-dot-fun/newly-graduated",
+                },
+                {
                   title: "Featured",
                   url: "/pump-dot-fun/featured",
                 },
               ],
             },
-            // {
-            //   title: "Moonshot",
-            //   url: "#",
-            //   icon: MoonshotLogo,
-            // },
+            {
+              title: "Moonshot",
+              url: "#",
+              icon: MoonshotLogo,
+              badge: {
+                text: "Upcoming",
+                variant: "secondary",
+              },
+            },
           ]}
         />
-        {/* <NavProjects
+        <NavProjects
           projects={[
             {
-              name: "Design Engineering",
+              name: "Charts",
               url: "#",
-              icon: Frame,
+              icon: ChartLineIcon,
             },
             {
-              name: "Sales & Marketing",
+              name: "Watch List",
               url: "#",
-              icon: PieChart,
+              icon: Clock10Icon,
             },
             {
-              name: "Travel",
+              name: "Workers",
               url: "#",
-              icon: Map,
+              icon: BotIcon,
             },
           ]}
-        /> */}
+        />
         <NavSecondary
           items={[
             {

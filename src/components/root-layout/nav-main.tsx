@@ -13,6 +13,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { Link, MatchRoute } from "@tanstack/react-router";
+import { Badge } from "@/components/ui/badge";
 
 export function NavMain({
   items,
@@ -22,9 +23,17 @@ export function NavMain({
     url: string;
     icon: React.ElementType;
     isActive?: boolean;
+    badge?: {
+      text: string;
+      variant?: "default" | "secondary" | "destructive" | "outline";
+    };
     items?: {
       title: string;
       url: string;
+      badge?: {
+        text: string;
+        variant?: "default" | "secondary" | "destructive" | "outline";
+      };
     }[];
   }[];
 }) {
@@ -41,6 +50,11 @@ export function NavMain({
                     <Link to={item.url} activeOptions={{ exact: true }}>
                       <item.icon />
                       <span>{item.title}</span>
+                      {item.badge && (
+                        <Badge variant={item.badge.variant} className="ml-auto">
+                          {item.badge.text}
+                        </Badge>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                   {item.items?.length ? (
@@ -56,7 +70,16 @@ export function NavMain({
                           {item.items?.map((subItem) => (
                             <SidebarMenuSubItem key={subItem.title}>
                               <Link to={subItem.url} activeOptions={{ exact: true }}>
-                                {({ isActive }) => <SidebarMenuSubButton isActive={isActive}>{subItem.title}</SidebarMenuSubButton>}
+                                {({ isActive }) => (
+                                  <SidebarMenuSubButton isActive={isActive}>
+                                    {subItem.title}
+                                    {subItem.badge && (
+                                      <Badge variant={subItem.badge.variant} className="ml-auto">
+                                        {subItem.badge.text}
+                                      </Badge>
+                                    )}
+                                  </SidebarMenuSubButton>
+                                )}
                               </Link>
                             </SidebarMenuSubItem>
                           ))}

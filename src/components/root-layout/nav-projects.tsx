@@ -1,4 +1,5 @@
 import { Folder, MoreHorizontal, Share, Trash2, type LucideIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 import {
   DropdownMenu,
@@ -24,13 +25,17 @@ export function NavProjects({
     name: string;
     url: string;
     icon: LucideIcon;
+    badge?: {
+      text: string;
+      variant?: "default" | "secondary" | "destructive" | "outline";
+    };
   }[];
 }) {
   const { isMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel>Tools</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -38,6 +43,11 @@ export function NavProjects({
               <a href={item.url}>
                 <item.icon />
                 <span>{item.name}</span>
+                {item.badge && (
+                  <Badge variant={item.badge.variant} className="ml-auto">
+                    {item.badge.text}
+                  </Badge>
+                )}
               </a>
             </SidebarMenuButton>
             <DropdownMenu>
