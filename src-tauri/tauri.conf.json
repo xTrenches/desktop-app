@@ -15,7 +15,9 @@
         "title": "xtrenches",
         "center": true,
         "width": 1440,
-        "height": 850
+        "height": 850,
+        "minWidth": 1280,
+        "minHeight": 720
       }
     ],
     "security": {
